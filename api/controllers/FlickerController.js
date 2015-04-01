@@ -37,12 +37,15 @@ module.exports = {
   },
 
   photos: function (req, res) {
-    var params = {
-      text: "red+panda",
+
+    var p = encodeURIComponent(req.param("q").trim()),
+      params = {
+      text: p,
       extras: "description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_m"
     };
 
-    var cacheKey = Cache.genKey("red+panda");
+
+    var cacheKey = Cache.genKey(p);
 
     Cache.get(cacheKey, function (err, result) {
       if (err) {
@@ -50,14 +53,13 @@ module.exports = {
       }
 
       if (!result) {
-        debug("No Cache")
         flickr.get("photos.search", params, function (response) {
           if (response.stat != 'ok') {
             debug('No cache data error condition', response);
             return res.badRequest({error: true, message: "Unable to fetch photos. Please try again later."});
           } else {
             debug("IT WHEN TO SAVING OF CACHE");
-            Cache.save(cacheKey, response, 180, null, function (err, data) {
+            Cache.save(cacheKey, response, 1880, null, function (err, data) {
               if (err) {
                 debug("THE CACHE ERROR SAVING", err);
                 return res.serverError({error: true, message: "Unable to cache data"});
