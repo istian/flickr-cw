@@ -4,6 +4,8 @@ module.exports = Backbone.View.extend({
 
   tagName: "li",
 
+  className: "item",
+
   template: require("../../../templates/flickr/thumbnail.hbs"),
 
   render: function () {

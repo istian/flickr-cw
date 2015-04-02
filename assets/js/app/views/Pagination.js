@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
   },
 
   events: {
-    "click .pagination ul li a": "fetch"
+    "click .pagination a": "fetch"
   },
 
   render: function (arg) {

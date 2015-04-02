@@ -3,24 +3,32 @@
     <div class="col-md-6 col-md-offset-3">
       <section id="frm-search">
         <div class="form-group">
-          <div class="input-group">
-            <input id="q" type="text" class="form-control" placeholder="e.g: Red Panda">
-            <span class="input-group-addon"><span class="fa fa-search"></span></span>
-          </div>
+          <i class="fa fa-search"></i>
+          <i class="fa fa-circle-o-notch fa-spin"></i>
+          <a href="javascript://" class="btn-clear-search"><i class="fa fa-times"></i></a>
+          <input id="q" type="text" class="form-control input-lg" placeholder="e.g: Red Panda">
         </div>
       </section>
     </div>
+
+
+    <section>
+      <div id="wrapPagination" class="container"></div>
+    </section>
   </header>
 
   <section id="flickrPhotos">
-    <ul id="listings">
+    <div class="container">
+      <div class="col-md-12">
+        <ul id="listings" class="grid effect-2">
 
-    </ul>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <footer>
     <section>
-      <div id="wrapPagination" class="col-md-6"></div>
       <div id="wrapStats" class="col-md-6"></div>
     </section>
   </footer>

@@ -1,7 +1,7 @@
-<div class="pagination pagination-centered">
-    <ul>
+<div class="col-md-6 col-md-offset-3 text-center">
+    <ul class="pagination">
       {{#paginate pagination type="previous"}}
-          <li {{#if disabled}}class="disabled"{{/if}}><a href="javascript://" data-page="{{n}}" >Prev</a></li>
+          <li {{#if disabled}}class="disabled"{{/if}}><a href="javascript://" data-page="{{n}}">Prev</a></li>
       {{/paginate}}
       {{#paginate pagination type="middle" limit="7"}}
           <li {{#if active}}class="active"{{/if}}><a href="javascript://" data-page="{{n}}">{{n}}</a></li>

@@ -3,14 +3,15 @@ var Backbone = require("backbone"),
   PaginationView = require("./Pagination"),
   PhotoCollections = require("../collections/Photos"),
   $ = require("jquery"),
-  _ = require("lodash");
-
+  _ = require("lodash"),
+  Masonry = require("masonry-layout"),
+  imageLoaded = require("imagesloaded");
 
 var Photos = new PhotoCollections;
 
 module.exports = Backbone.View.extend({
 
-  el: "#flickrPhotos",
+  el: "#listings",
 
   template: require("../../../templates/flickr/listings.hbs"),
 
@@ -40,7 +41,18 @@ module.exports = Backbone.View.extend({
       container.appendChild(sub.render().el);
     });
 
-    self.$el.empty().append(container);
+    self.$el
+      .empty()
+      .append(container);
+
+    var msnry = new Masonry(self.el, {
+      columnWidth: 60
+    });
+
+    imageLoaded(self.el, function () {
+      msnry.layout();
+    });
+
   },
 
   searchPhoto: function (arg) {
@@ -53,7 +65,7 @@ module.exports = Backbone.View.extend({
       Backbone.trigger("Flickr:Photos:Search_Error", arg);
     }).success(function (data) {
       Backbone.trigger("Flickr:Photos:Search_Success", _.merge(arg, data));
-    }).done(function() {
+    }).done(function () {
       Backbone.trigger("Flickr:Photos:Render_Result");
     });
   }
