@@ -13,8 +13,9 @@ function redis(args) {
 	self.name = 'redis';
 
 	var redis_options = {
-		host: args.host || '127.0.0.1',
-		port: args.port || 6379
+		host: args.host || sails.config.redis.host,
+    port: args.port || sails.config.redis.port,
+    auth_pass: args.auth_pass || sails.config.redis.auth_pass
 	};
 
 	var pool = new RedisPool(redis_options, {});

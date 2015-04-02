@@ -21,4 +21,11 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
+  redis: {
+    host: "localhost",
+    port: "6379",
+    db: "db1",
+    auth_pass: ""
+  }
+
 };
