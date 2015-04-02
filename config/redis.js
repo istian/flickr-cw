@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.redis = {
   host: "gar.redistogo.com",
   port: "9408",
   db: "redistogo",
