@@ -24,6 +24,14 @@ module.exports = function(grunt) {
 				dest: '.tmp/public'
 			}]
 		},
+    fonts: {
+      files: [{
+        expand: true,
+        cwd: "./node_modules",
+        src: ["font-awesome/fonts/*", "bootstrap/fonts/*"],
+        dest: ".tmp/public/fonts"
+      }]
+    },
 		build: {
 			files: [{
 				expand: true,

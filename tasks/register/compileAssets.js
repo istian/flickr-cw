@@ -4,6 +4,8 @@ module.exports = function (grunt) {
 		'jst:dev',
 		'less:dev',
 		'copy:dev',
-		'coffee:dev'
+    'copy:fonts',
+		'coffee:dev',
+    'browserify'
 	]);
 };
