@@ -40,12 +40,16 @@ module.exports = {
 
     var p = encodeURIComponent(req.param("q").trim()),
       params = {
-      text: p,
-      extras: "description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_m"
-    };
+        text: p,
+        page: parseInt(req.param("page")) || 1,
+        extras: "description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_m"
+      };
 
+    debug("THE PARAMS", params);
 
-    var cacheKey = Cache.genKey(p);
+    var cacheKey = Cache.genKey(JSON.stringify(params));
+
+    debug("THE CACHE KEY", cacheKey);
 
     Cache.get(cacheKey, function (err, result) {
       if (err) {
