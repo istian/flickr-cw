@@ -35,4 +35,11 @@ module.exports = {
   //   level: "silent"
   // }
 
+  cache: {
+    store: 'memory',
+    ttl: 120, //seconds
+    maxAge: 300, // ms (30mins)
+    max: 500
+  }
+
 };
