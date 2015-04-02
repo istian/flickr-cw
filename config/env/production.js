@@ -39,7 +39,10 @@ module.exports = {
     store: 'memory',
     ttl: 120, //seconds
     maxAge: 300, // ms (30mins)
-    max: 500
+    max: 500,
+    db: null,
+    host: null,
+    prefix: null
   }
 
 };
