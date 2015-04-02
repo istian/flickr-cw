@@ -41,7 +41,7 @@
     "swag": "^0.7.0"
   },
   "scripts": {
-    "start": "nodemon -w config -w api app.js -restartable=rs",
+    "start": "node app.js",
     "debug": "node debug app.js",
     "test": "mocha"
   },
