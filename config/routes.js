@@ -35,7 +35,10 @@ module.exports.routes = {
   '/': {
     view: "homepage"
   },
-  'GET /search': "FlickerController.photos"
+
+  'GET /search': "FlickerController.photos",
+
+  'GET /get-info': "FlickerController.getInfo"
 
   /***************************************************************************
   *                                                                          *

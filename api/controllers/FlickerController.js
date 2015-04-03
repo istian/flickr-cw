@@ -5,34 +5,30 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-//var Flickr = require("flickrapi");
-
-var Flickr = require("node-flickr");
+var Flickr = require("node-flickr"),
+  _ = require("lodash"),
+  util = require("util");
 
 var flickr = new Flickr({
   api_key: process.env.FLICKR_KEY
 });
 
+function getImage(sizes, size) {
+  return _.pluck(_.filter(sizes, {label: size}), "source")[0];
+}
+
+function constructUrl(data) {
+  //http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
+  return util.format(
+    "http://farm%d.staticflickr.com/%d/%d_%s_z.jpg",
+    data.farm,
+    data.server,
+    data.id,
+    data.secret
+  );
+}
+
 module.exports = {
-  search: function (req, res) {
-    /*Flickr.tokenOnly({
-     api_key: sails.config.flickr.key,
-     secret: sails.config.flickr.secret,
-     progress: false
-     }, function(err, flickr) {
-     debug(err, "the error");
-     debug(flickr, "the flickr instance");
-     });*/
-
-    //debug(sails.config.flickr.photos.search, "the instance");
-    sails.config.flickr.photos.search({
-      text: "red+panda"
-    }, function (err, result) {
-      if (err) res.error(err);
-
-      return res.json({data: result});
-    })
-  },
 
   photos: function (req, res) {
 
@@ -40,6 +36,7 @@ module.exports = {
       params = {
         text: p,
         page: parseInt(req.param("page")) || 1,
+        per_page: 10,
         extras: "description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_t, url_m"
       };
 
@@ -72,6 +69,62 @@ module.exports = {
 
 
     });
+  },
+
+  getInfo: function (req, res) {
+    var p = encodeURI(req.param("id")),
+      params = {
+        photo_id: p
+      };
+
+
+    var cacheKey = Cache.genKey(JSON.stringify(params));
+
+    Cache.get(cacheKey, function (err, result) {
+        if (err) return res.serverError({error: true, message: "Oops! Server encountered an error!"});
+
+        if (!result) {
+          flickr.get("photos.getInfo", params, function (response) {
+              if (response.stat != "ok") return res.json(404, {error: true, message: "Image not found"});
+
+              Cache.save(cacheKey, response, 1000, null, function (err, data) {
+                if (err) return res.serverError("Oop! Server encountered an error");
+
+                var data = response.photo || {};
+
+                return res.json({
+                  title: "",
+                  description: "",
+                  thumbnail_url: "",
+                  preview_url: constructUrl(data),
+                  views: "",
+                  type: "",
+                  uploaded_at: ""
+                });
+              });
+            }
+          );
+        }
+        else {
+          var data = result.photo || {};
+
+          return res.json({
+            title: "",
+            description: "",
+            views: "",
+            type: "",
+            uploaded_at: "",
+            thumbnail_url: "",
+            preview_url: constructUrl(data)
+          });
+        }
+
+      }
+    )
+    ;
+
   }
-};
+
+}
+;
 
