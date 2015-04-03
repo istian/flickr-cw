@@ -25,12 +25,15 @@ module.exports = Backbone.Collection.extend({
     $.each(photos, function (index, value) {
       i = photos[index];
       self.push({
+        id: i.id,
         title: i.title,
         thumbnail_url: i.url_t,
         preview_url: i.url_m,
         uploaded_at: i.dateupload,
         type: i.media,
-        views: i.views
+        views: i.views,
+        description: i.description,
+        license: i.license
       });
     });
 

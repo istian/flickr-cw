@@ -59,14 +59,18 @@ module.exports = Backbone.View.extend({
     var self = this;
     this.photoView = [];
 
-    Photos.fetch({
+    Photos.on("fetch", function () {
+      Backbone.trigger("Flickr:Photos:Search_Progress", arg);
+      self.$el.hide();
+    }).fetch({
       data: $.param(arg)
     }).error(function () {
       Backbone.trigger("Flickr:Photos:Search_Error", arg);
     }).success(function (data) {
       Backbone.trigger("Flickr:Photos:Search_Success", _.merge(arg, data));
-    }).done(function () {
-      Backbone.trigger("Flickr:Photos:Render_Result");
+    }).done(function (data) {
+      Backbone.trigger("Flickr:Photos:Render_Result", _.merge(arg, data));
+      self.$el.show();
     });
   }
 

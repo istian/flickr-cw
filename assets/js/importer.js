@@ -1,6 +1,6 @@
 var App = require("./app/App");
 
-$(document).ready(function() {
-    new App.Router();
-    Backbone.history.start();
+$(document).ready(function () {
+  window.FlickrAppRouter = new App.Router();
+  Backbone.history.start();
 });
